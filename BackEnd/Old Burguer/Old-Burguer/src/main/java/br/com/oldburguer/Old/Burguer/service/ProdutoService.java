@@ -18,5 +18,9 @@ public class ProdutoService {
     public List<Produto> listarTodos(){
         return produtoRepository.findAll();
     }
+    // Método para buscar por id
+    public Produto buscarPorId(Integer id){
+        return produtoRepository.findById(id).orElse(null);
+    }
 
 }

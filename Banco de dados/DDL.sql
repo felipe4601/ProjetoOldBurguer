@@ -55,6 +55,45 @@ CREATE TABLE old_burguer.item_do_pedido(
 );
 
 
+-- Comandos para alterar tabelas:
+-- Adicionando regra para deletar em cascata
+-- PEDIDO
+ALTER TABLE old_burguer.pedido
+	ADD COLUMN id_restaurante INT NOT NULL;
+
+
+
+ALTER TABLE IF EXISTS old_burguer.pedido
+	-- id_restaurante
+	ADD CONSTRAINT pedido_id_restaurante_fkey FOREIGN KEY (id_restaurante)
+    REFERENCES old_burguer.restaurante (id_restaurante) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE,
+	-- id_cliente
+	ADD CONSTRAINT  pedido_id_cliente_fkey FOREIGN KEY (id_cliente)
+	REFERENCES old_burguer.cliente (id_cliente) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE,
+	-- id_pagamento
+	ADD CONSTRAINT pedido_id_pagamento_fkey FOREIGN KEY(id_pagamento)
+	REFERENCES old_burguer.pagamento (id_pagamento) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
+
+-- O mesmo para a tabela item_do_pedido
+ALTER TABLE IF EXISTS old_burguer.item_do_pedido
+	-- id_pedido
+	ADD CONSTRAINT item_do_pedido_id_pedido_fkey FOREIGN KEY(id_pedido)
+	REFERENCES old_burguer.pedido (id_pedido) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE,
+	-- id_produto
+	ADD CONSTRAINT item_do_pedido_id_produto_fkey FOREIGN KEY(id_produto)
+	REFERENCES old_burguer.produto (id_produto) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE;
+		
+--
 -- Comandos para remover, caso necessário:
 DROP TABLE old_burguer.restaurante;
 DROP TABLE old_burguer.cliente;

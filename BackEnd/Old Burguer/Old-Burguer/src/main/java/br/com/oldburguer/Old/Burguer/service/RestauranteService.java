@@ -21,4 +21,9 @@ public class RestauranteService {
     public List<Restaurante> listarTodos(){
         return restauranteRepository.findAll();
     }
+
+    // Método para buscar por id:
+    public Restaurante buscarPorId(Integer id){
+        return restauranteRepository.findById(id).orElse(null);
+    }
 }

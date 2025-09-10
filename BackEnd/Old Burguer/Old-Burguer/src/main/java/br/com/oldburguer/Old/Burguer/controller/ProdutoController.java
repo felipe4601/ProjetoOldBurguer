@@ -1,9 +1,11 @@
 package br.com.oldburguer.Old.Burguer.controller;
 
 import br.com.oldburguer.Old.Burguer.model.Produto;
+import br.com.oldburguer.Old.Burguer.service.PagamentoService;
 import br.com.oldburguer.Old.Burguer.service.ProdutoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,9 +16,11 @@ import java.util.List;
 
 public class ProdutoController {
     private final ProdutoService produtoService;
+    private final PagamentoService pagamentoService;
 
-    public ProdutoController(ProdutoService service){
+    public ProdutoController(ProdutoService service, PagamentoService pagamentoService){
         produtoService = service;
+        this.pagamentoService = pagamentoService;
     }
 
     @GetMapping
@@ -28,5 +32,14 @@ public class ProdutoController {
         return ResponseEntity.ok().body(produtos);
         // retornando em formato de reposta para web a lita de produtos,
         // que foi criada a partir da lista de produtos do service
+    }
+    // Método para buscar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id){
+        Produto produto = produtoService.buscarPorId(id);
+        if(produto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(produto);
     }
 }

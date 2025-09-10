@@ -18,4 +18,9 @@ public class PedidoService {
     public List<Pedido> listarTodos(){
         return pedidoRepository.findAll();
     }
+
+    // Método para buscar por id:
+    public Pedido buscarPorId(Integer id){
+        return pedidoRepository.findById(id).orElse(null);
+    }
 }

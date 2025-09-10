@@ -3,9 +3,7 @@ package br.com.oldburguer.Old.Burguer.controller;
 import br.com.oldburguer.Old.Burguer.model.Restaurante;
 import br.com.oldburguer.Old.Burguer.service.RestauranteService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +30,14 @@ public class RestauranteController {
     public ResponseEntity<List<Restaurante>> listarRestaurante() {
         List<Restaurante> restaurantes = restauranteService.listarTodos();
         return ResponseEntity.ok().body(restaurantes);
+    }
+    // Método para buscar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id){
+        Restaurante restaurante = restauranteService.buscarPorId(id);
+        if(restaurante == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(restaurante);
     }
 }
